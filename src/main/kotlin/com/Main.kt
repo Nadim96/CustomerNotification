@@ -16,6 +16,8 @@ import io.ktor.routing.Routing
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
 import javafx.geometry.Pos
 import java.awt.SystemColor.text
 import java.util.*
@@ -31,20 +33,22 @@ val snippets = Collections.synchronizedList(mutableListOf(
     Snippet("world")
 ))
 
-fun Application.main() {
-    install(ContentNegotiation) {
-        jackson {
-            enable(SerializationFeature.INDENT_OUTPUT)
+fun main() {
+    embeddedServer(Netty, 8080) {
+        install(ContentNegotiation) {
+            jackson {
+                enable(SerializationFeature.INDENT_OUTPUT)
+            }
         }
-    }
-    routing {
-        get("/snippets") {
-            call.respond(mapOf("snippets" to synchronized(snippets) { snippets.toString() }))
+        routing {
+            get("/snippets") {
+                call.respond(mapOf("snippets" to synchronized(snippets) { snippets.toList() }))
+            }
+            post("/snippets") {
+                val post = call.receive<PostSnippet>()
+                snippets += Snippet(post.snippet.text)
+                call.respond(mapOf("OK" to true))
+            }
         }
-        post("/snippets") {
-            val post = call.receive<PostSnippet>()
-            snippets += Snippet(post.snippet.text)
-            call.respond(mapOf("OK" to true))
-        }
-    }
+    }.start(wait = true)
 }

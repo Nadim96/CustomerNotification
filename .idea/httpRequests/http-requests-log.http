@@ -3,6 +3,22 @@ Content-Type: application/json
 
 {"snippet":{"text":"mysnippet"}}
 
+<> 2018-11-22T035159.200.json
+
+###
+
+POST http://127.0.0.1:8080/snippets
+Content-Type: application/json
+
+{"snippet":{"text":"mysnippet"}}
+
+###
+
+POST http://127.0.0.1:8080/snippets
+Content-Type: application/json
+
+{"snippet":{"text":"mysnippet"}}
+
 ###
 
 POST http://127.0.0.1:8080/snippets
@@ -370,22 +386,6 @@ Accept: application/json
 {"snippet": {"text" : "mysnippet"}}
 
 <> 2018-11-22T021451.200.txt
-
-###
-
-POST http://127.0.0.1:8080/snippets
-Content-Type: application/json
-Accept: application/json
-
-{"snippet": {"text" : "mysnippet"}}
-
-###
-
-POST http://127.0.0.1:8080/snippets
-Content-Type: application/json
-Accept: application/json
-
-{"snippet": {"text" : "mysnippet"}}
 
 ###
 
